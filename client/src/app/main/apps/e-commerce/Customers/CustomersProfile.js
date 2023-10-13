@@ -793,8 +793,8 @@ const CustomerProfile = (props) => {
                                         : { color: 'black' }
                                     }>
                                     <div className="flex flex-col">
-                                      <div>{addTwoDecimalPlaces(row?.eyeglassesAxisOd)}</div>
-                                      <div>{addTwoDecimalPlaces(row?.eyeglassesAxisOs)}</div>
+                                      <div>{row?.eyeglassesAxisOd}</div>
+                                      <div>{row?.eyeglassesAxisOs}</div>
                                     </div>
                                   </StyledTableCell>
                                   <StyledTableCell
@@ -904,8 +904,8 @@ const CustomerProfile = (props) => {
                                         : { color: 'black' }
                                     }>
                                     <div className="flex flex-col">
-                                      <div>{addTwoDecimalPlaces(row.contactLensAxisOd)}</div>
-                                      <div>{addTwoDecimalPlaces(row.contactLensAxisOs)}</div>
+                                      <div>{row?.contactLensAxisOd}</div>
+                                      <div>{row?.contactLensAxisOs}</div>
                                     </div>
                                   </StyledTableCell>
                                   <StyledTableCell

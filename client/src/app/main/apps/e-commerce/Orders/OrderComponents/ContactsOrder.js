@@ -228,7 +228,7 @@ const ContactsOrder = (props) => {
                       id="standard-basic"
                       value={selectedContactLens?.contactLensSphereOd ?? ''}
                       onChange={handleSelectedContactLensChange}
-                      disabled={disabledState}
+                      disabled
                       name={'contactLensSphereOd'}
                       type='number'
                       InputProps={{
@@ -245,7 +245,7 @@ const ContactsOrder = (props) => {
                       id="standard-basic"
                       value={selectedContactLens?.contactLensCylinderOd ?? ''}
                       onChange={handleSelectedContactLensChange}
-                      disabled={disabledState}
+                      disabled
                       name={'contactLensCylinderOd'}
                       type='number'
                       InputProps={{
@@ -261,7 +261,7 @@ const ContactsOrder = (props) => {
                       fullWidth
                       id="standard-basic"
                       value={selectedContactLens?.contactLensAxisOd ?? ''}
-                      disabled={disabledState}
+                      disabled
                       onChange={handleSelectedContactLensChange}
                       name={'contactLensAxisOd'}
                       type='number'
@@ -277,7 +277,7 @@ const ContactsOrder = (props) => {
                       size="small"
                       fullWidth
                       id="standard-basic"
-                      disabled={disabledState}
+                      disabled
                       value={selectedContactLens?.contactLensAddOd ?? ''}
                       onChange={handleSelectedContactLensChange}
                       name={'contactLensAddOd'}
@@ -293,7 +293,7 @@ const ContactsOrder = (props) => {
                       size="small"
                       fullWidth
                       id="standard-basic"
-                      disabled={disabledState}
+                      disabled
                       value={selectedContactLens?.contactLensBrandOd ?? ''}
                       onChange={(e) => handleSelectedContactLensChange({
                         target: {
@@ -314,7 +314,7 @@ const ContactsOrder = (props) => {
                       size="small"
                       fullWidth
                       id="standard-basic"
-                      disabled={disabledState}
+                      disabled
                       value={selectedContactLens?.contactLensModelOd ?? ''}
                       onChange={(e) => handleSelectedContactLensChange({
                         target: {
@@ -340,7 +340,7 @@ const ContactsOrder = (props) => {
                       size="small"
                       fullWidth
                       id="standard-basic"
-                      disabled={disabledState}
+                      disabled
                       value={selectedContactLens?.contactLensSphereOs ?? ''}
                       onChange={handleSelectedContactLensChange}
                       name={'contactLensSphereOs'}
@@ -357,7 +357,7 @@ const ContactsOrder = (props) => {
                       size="small"
                       fullWidth
                       id="standard-basic"
-                      disabled={disabledState}
+                      disabled
                       value={selectedContactLens?.contactLensCylinderOs ?? ''}
                       onChange={handleSelectedContactLensChange}
                       name={'contactLensCylinderOs'}
@@ -374,7 +374,7 @@ const ContactsOrder = (props) => {
                       size="small"
                       fullWidth
                       id="standard-basic"
-                      disabled={disabledState}
+                      disabled
                       value={selectedContactLens?.contactLensAxisOs ?? ''}
                       onChange={handleSelectedContactLensChange}
                       name={'contactLensAxisOs'}
@@ -391,7 +391,7 @@ const ContactsOrder = (props) => {
                       size="small"
                       fullWidth
                       id="standard-basic"
-                      disabled={disabledState}
+                      disabled
                       value={selectedContactLens?.contactLensAddOs ?? ''}
                       onChange={handleSelectedContactLensChange}
                       name={'contactLensAddOs'}
@@ -407,7 +407,7 @@ const ContactsOrder = (props) => {
                       size="small"
                       fullWidth
                       id="standard-basic"
-                      disabled={disabledState}
+                      disabled
                       value={selectedContactLens?.contactLensBrandOs ?? ''}
                       onChange={(e) => handleSelectedContactLensChange({
                         target: {
@@ -428,7 +428,7 @@ const ContactsOrder = (props) => {
                       size="small"
                       fullWidth
                       id="standard-basic"
-                      disabled={disabledState}
+                      disabled
                       value={selectedContactLens?.contactLensModelOs ?? ''}
                       onChange={(e) => handleSelectedContactLensChange({
                         target: {

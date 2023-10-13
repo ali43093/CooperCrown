@@ -683,6 +683,13 @@ function AddOrder(props) {
     return sum.toLocaleString();
   };
 
+  const checkLensName = (lensType) => {
+    if (lensType === 'distance') return 'Distance'
+    if (lensType === 'read') return 'Reading'
+    if (lensType === 'fTop') return 'Flat Top'
+    if (lensType === 'progressive') return 'Progressive'
+  }
+
   if (isLoading) return <FuseLoading />;
 
   return (
@@ -770,41 +777,41 @@ function AddOrder(props) {
               </div>
               {routeParams.orderId && (
                 <div className='flex flex-row w-1/3 justify-end'>
-                <div className='flex flex-col w-192'>
-                  <FormControl variant="outlined">
-                    <InputLabel id="demo-simple-select-autowidth-label" color='white'>
-                      Select an option:
-                    </InputLabel>
-                    <Select
-                      disabled={!disabledState}
-                      labelId="demo-simple-select-autowidth-label"
-                      onChange={(e) => {
-                        switch (e.target.value) {
-                          case 1:
-                            setOpenOrderReceipt(true)
-                            break;
-                          case 2:
-                            setOpenThermalReceipt(true)
-                            break;
-                          case 3:
-                            setOpenOrderTicket(true)
-                            break;
-                          case 4:
-                            setOpenPickupReceipt(true)
-                            break;
+                  <div className='flex flex-col w-192'>
+                    <FormControl variant="outlined">
+                      <InputLabel id="demo-simple-select-autowidth-label" color='white'>
+                        Select an option:
+                      </InputLabel>
+                      <Select
+                        disabled={!disabledState}
+                        labelId="demo-simple-select-autowidth-label"
+                        onChange={(e) => {
+                          switch (e.target.value) {
+                            case 1:
+                              setOpenOrderReceipt(true)
+                              break;
+                            case 2:
+                              setOpenThermalReceipt(true)
+                              break;
+                            case 3:
+                              setOpenOrderTicket(true)
+                              break;
+                            case 4:
+                              setOpenPickupReceipt(true)
+                              break;
 
-                          default:
-                            break;
-                        }
-                      }}>
-                      <MenuItem value={1}>{'Print Letter Receipt'}</MenuItem>
-                      <MenuItem value={2}>{'Print Thermal Receipt'}</MenuItem>
-                      <MenuItem value={3}>{'Print Order Ticket'}</MenuItem>
-                      <MenuItem value={4} disabled={form?.orderStatus !== 'pick up ready' && form?.orderStatus !== 'completed'}>{'Order Pickup'}</MenuItem>
+                            default:
+                              break;
+                          }
+                        }}>
+                        <MenuItem value={1}>{'Print Letter Receipt'}</MenuItem>
+                        <MenuItem value={2}>{'Print Thermal Receipt'}</MenuItem>
+                        <MenuItem value={3}>{'Print Order Ticket'}</MenuItem>
+                        <MenuItem value={4} disabled={form?.orderStatus !== 'pick up ready' && form?.orderStatus !== 'completed'}>{'Order Pickup'}</MenuItem>
 
-                    </Select>
-                  </FormControl>
-                </div>
+                      </Select>
+                    </FormControl>
+                  </div>
                 </div>
               )}
             </div>
@@ -881,8 +888,8 @@ function AddOrder(props) {
                                     className="px-20 py-10 border-b-1 border-black border-solid">
                                     <div className="flex flex-row justify-between">
                                       <h3>{`${row.frameBrand ?? '-'} / ${row.frameModel ?? '-'
-                                        } / ${row.frameColour ?? '-'} / ${row.lensType ?? '-'
-                                        } / ${row.lensColour ?? '-'}`}</h3>
+                                        } / ${row.frameColour ?? '-'} / ${row.lensType ? checkLensName(row.lensType) : '-'
+                                        } / ${row.lensColour ?? '-'} / ${row.lensTypeName ?? '-'}`}</h3>
                                       <h3>
                                         $
                                         {(row?.frameRate || row?.lensRate) &&
@@ -892,6 +899,22 @@ function AddOrder(props) {
                                           )}
                                       </h3>
                                     </div>
+                                    {row?.frameAdditionalPrice > 0 && (
+                                      <div className="flex flex-row justify-between">
+                                        <h3>{row?.frameMemo}</h3>
+                                        <h3>
+                                          ${row?.frameAdditionalPrice.toLocaleString()}
+                                        </h3>
+                                      </div>
+                                    )}
+                                    {row?.lensAdditionalPrice > 0 && (
+                                      <div className="flex flex-row justify-between">
+                                        <h3>{row?.lensMemo}</h3>
+                                        <h3>
+                                          ${row?.lensAdditionalPrice.toLocaleString()}
+                                        </h3>
+                                      </div>
+                                    )}
                                   </div>
                                 ))}
 

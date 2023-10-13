@@ -5,14 +5,15 @@ import { algoliaDefaultRanking } from '../ReusableComponents/HelperFunctions';
 import { connectHits } from 'react-instantsearch-dom';
 import { firestore } from 'firebase';
 import { IconButton } from '@material-ui/core';
+import { InstantSearch, SearchBox, Pagination, HitsPerPage, Configure, connectStateResults } from 'react-instantsearch-dom';
 import { Link } from 'react-router-dom';
 import { toast, Zoom } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from '@fuse/hooks';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
-import { InstantSearch, SearchBox, Pagination, HitsPerPage, Configure, connectStateResults } from 'react-instantsearch-dom';
 import * as MessageActions from 'app/store/actions/fuse/message.actions';
 import algoliasearch from 'algoliasearch';
+import ArrowForwardIosIcon from '@material-ui/icons/ArrowForwardIos';
 import Button from '@material-ui/core/Button';
 import CachedIcon from '@material-ui/icons/Cached';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -21,7 +22,6 @@ import ExpandLessIcon from '@material-ui/icons/ExpandLess';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import FuseAnimate from '@fuse/core/FuseAnimate';
 import GetAppIcon from '@material-ui/icons/GetApp';
-import LabelImportantIcon from '@material-ui/icons/LabelImportant';
 import LoadingDialog from '../ReusableComponents/LoadingDialog';
 import moment from 'moment';
 import MultipleOrderTickets from './MultipleOrderTickets';
@@ -123,13 +123,13 @@ const CustomHits = connectHits(
         const client = algoliasearch(process.env.REACT_APP_ALGOLIA_APPLICATION_ID, process.env.REACT_APP_ALGOLIA_UPDATE_SETTINGS_KEY)
         const index = client.initIndex('orders')
 
-        index.setSettings({ ranking: [attributeToSet, ...algoliaDefaultRanking]}).then(() => {
+        index.setSettings({ ranking: [attributeToSet, ...algoliaDefaultRanking] }).then(() => {
           setCurrentSort(attributeToSet);
 
-            setTimeout(() => {
-              setSearchClient(algoliasearch(process.env.REACT_APP_ALGOLIA_APPLICATION_ID, process.env.REACT_APP_ALGOLIA_SEARCH_ONLY_KEY))
-              setisLoading(false)
-            }, 1000);
+          setTimeout(() => {
+            setSearchClient(algoliasearch(process.env.REACT_APP_ALGOLIA_APPLICATION_ID, process.env.REACT_APP_ALGOLIA_SEARCH_ONLY_KEY))
+            setisLoading(false)
+          }, 1000);
         }).catch((err) => {
           console.error('Error updating index settings:', err);
           setisLoading(false);
@@ -270,14 +270,15 @@ const CustomHits = connectHits(
                   className="cursor-pointer truncate"
                   onClick={(event) => handleClick(event, hit.orderId)}>
                   <StyledTableCell
+                    className='p-0 m-0'
                     scope="row"
                     style={{ maxWidth: 'max-content' }}>
-                    <div className="flex">
+                    <div className="flex flex-row justify-center">
                       {(hit?.shipFrameToCustomerLogic ||
                         hit?.shipContactLensToCustomerLogic ||
                         hit?.shipOtherProductToCustomerLogic) && (
                           <div style={{ width: '20px', height: '20px' }}>
-                            <LabelImportantIcon
+                            <ArrowForwardIosIcon
                               color="secondary"
                               className="w-full h-full"
                               style={{ color: 'green' }}
@@ -288,16 +289,16 @@ const CustomHits = connectHits(
                         hit?.rushContactLensOrder ||
                         hit?.rushOtherProductOrder) && (
                           <div style={{ width: '20px', height: '20px' }}>
-                            <LabelImportantIcon
+                            <ArrowForwardIosIcon
                               color="secondary"
                               className="w-full h-full"
                               style={{ color: 'red' }}
                             />
                           </div>
                         )}
-                      {hit?.sendFrameToLab && (
+                      {hit?.eyeglasses.some((pair) => pair?.sendFrameToLab === true) && (
                         <div style={{ width: '20px', height: '20px' }}>
-                          <LabelImportantIcon
+                          <ArrowForwardIosIcon
                             color="secondary"
                             className="w-full h-full"
                             style={{ color: 'blue' }}

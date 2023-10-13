@@ -39,24 +39,44 @@ const CustomAutocomplete = (props) => {
         freeSolo={freeSolo}
         onInputChange={(e, value) => {
           setInput(value);
-          handleChange({
-            target: { value: value, name: id }
-          });
+          if (freeSolo) {
+            handleChange({
+              target: { value: value, name: id }
+            });
+          }
+          if (([...new Set(list?.length > 0 ? list?.map((item) => (item[id] ? String(item[id]) : '')) : [])].includes(value)) && !freeSolo) {
+            handleChange({
+              target: { value: value, name: id }
+            });
+          }
         }}
         name={id}
         onChange={(_, value) => {
-          handleChange({
-            target: {
-              value: value,
-              name: id
+          if (freeSolo) {
+            handleChange({
+              target: {
+                value: value,
+                name: id
+              }
+            });
+            if (customFunction) {
+              customFunction(value);
             }
-          });
-          if (customFunction) {
-            customFunction(value);
+          }
+          if (([...new Set(list?.length > 0 ? list?.map((item) => (item[id] ? String(item[id]) : '')) : [])].includes(value)) && !freeSolo) {
+            handleChange({
+              target: {
+                value: value,
+                name: id
+              }
+            });
+            if (customFunction) {
+              customFunction(value);
+            }
           }
         }}
         renderInput={(params) => (
-          <TextField {...params} label={label} type={inputType} variant={variant || 'outlined'} margin='normal'/>
+          <TextField {...params} label={label} type={inputType} variant={variant || 'outlined'} margin='normal' />
         )}
       />
     </div>

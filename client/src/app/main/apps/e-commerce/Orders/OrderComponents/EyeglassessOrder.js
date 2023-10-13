@@ -131,7 +131,7 @@ const EyeglassessOrder = (props) => {
     }
 
     if (
-      selectedFrame !== {}
+      selectedFrame
     ) {
       setEyeglasses([...eyeglasses, { ...selectedFrame, lensRate: lensRate ? lensRate : 0 }]);
     } else {
@@ -235,7 +235,7 @@ const EyeglassessOrder = (props) => {
                                 : ''
                             }
                             onChange={handleSelectedFrameChange}
-                            disabled={disabledState}
+                            disabled
                             name={'eyeglassesSphereOd'}
                             type='number'
                             InputProps={{
@@ -252,7 +252,7 @@ const EyeglassessOrder = (props) => {
                             id="standard-basic"
                             value={selectedFrame?.eyeglassesCylinderOd ?? ''}
                             onChange={handleSelectedFrameChange}
-                            disabled={disabledState}
+                            disabled
                             name={'eyeglassesCylinderOd'}
                             type='number'
                             InputProps={{
@@ -268,7 +268,7 @@ const EyeglassessOrder = (props) => {
                             fullWidth
                             id="standard-basic"
                             value={selectedFrame?.eyeglassesAxisOd ?? ''}
-                            disabled={disabledState}
+                            disabled
                             onChange={handleSelectedFrameChange}
                             name={'eyeglassesAxisOd'}
                             type='number'
@@ -284,7 +284,7 @@ const EyeglassessOrder = (props) => {
                             size="small"
                             fullWidth
                             id="standard-basic"
-                            disabled={disabledState}
+                            disabled
                             value={selectedFrame?.eyeglassesAddOd ?? ''}
                             onChange={handleSelectedFrameChange}
                             name={'eyeglassesAddOd'}
@@ -301,7 +301,7 @@ const EyeglassessOrder = (props) => {
                             size="small"
                             fullWidth
                             id="standard-basic"
-                            disabled={disabledState}
+                            disabled
                             value={selectedFrame?.eyeglassesPrismOd ?? ''}
                             onChange={handleSelectedFrameChange}
                             name={'eyeglassesPrismOd'}
@@ -324,7 +324,7 @@ const EyeglassessOrder = (props) => {
                             size="small"
                             fullWidth
                             id="standard-basic"
-                            disabled={disabledState}
+                            disabled
                             value={selectedFrame?.eyeglassesSphereOs ?? ''}
                             onChange={handleSelectedFrameChange}
                             name={'eyeglassesSphereOs'}
@@ -341,7 +341,7 @@ const EyeglassessOrder = (props) => {
                             size="small"
                             fullWidth
                             id="standard-basic"
-                            disabled={disabledState}
+                            disabled
                             value={selectedFrame?.eyeglassesCylinderOs ?? ''}
                             onChange={handleSelectedFrameChange}
                             name={'eyeglassesCylinderOs'}
@@ -358,7 +358,7 @@ const EyeglassessOrder = (props) => {
                             size="small"
                             fullWidth
                             id="standard-basic"
-                            disabled={disabledState}
+                            disabled
                             value={selectedFrame?.eyeglassesAxisOs ?? ''}
                             onChange={handleSelectedFrameChange}
                             name={'eyeglassesAxisOs'}
@@ -375,7 +375,7 @@ const EyeglassessOrder = (props) => {
                             size="small"
                             fullWidth
                             id="standard-basic"
-                            disabled={disabledState}
+                            disabled
                             value={selectedFrame?.eyeglassesAddOs ?? ''}
                             onChange={handleSelectedFrameChange}
                             name={'eyeglassesAddOs'}
@@ -392,7 +392,7 @@ const EyeglassessOrder = (props) => {
                           <TextField
                             size="small"
                             fullWidth
-                            disabled={disabledState}
+                            disabled
                             id="standard-basic"
                             value={selectedFrame?.eyeglassesPrismOs ?? ''}
                             onChange={handleSelectedFrameChange}
@@ -1024,23 +1024,38 @@ const EyeglassessOrder = (props) => {
                 disabled={(!selectedFrame?.frameId && !selectedFrame?.lensTypeName) || disabledState}
                 color="secondary"
                 onClick={() => {
-                  if (selectedFrame?.lensTypeName && (!selectedFrame?.eyeglassesSphereOd || !selectedFrame?.eyeglassesCylinderOd)) {
+                  if (selectedFrame?.lensTypeName && (!selectedFrame?.eyeglassesSphereOd || !selectedFrame?.eyeglassesCylinderOd ||
+                    !selectedFrame?.eyeglassesSphereOs || !selectedFrame?.eyeglassesCylinderOs)) {
                     toast.error('Please enter Sphere & Cylinder Values...', toastAttributes);
                     return null;
                   }
                   if (selectedFrame?.lensTypeName) {
+                    let odPrice, osPrice
                     lensPrices[selectedFrame?.lensTypeName].rows.map((row) => {
                       if (row?.id === Number(selectedFrame?.eyeglassesSphereOd).toFixed(2)) {
                         if (row[Number(selectedFrame?.eyeglassesCylinderOd).toFixed(2)]) {
-                          handleAddFrameToOrder(+row[Number(selectedFrame?.eyeglassesCylinderOd).toFixed(2)])
-                        } else {
-                          setOpenOutOfRangeAlert(true)
-                          toast.error('Selected Lens Rate is not available...', toastAttributes);
-                          return null;
+                          odPrice = +row[Number(selectedFrame?.eyeglassesCylinderOd).toFixed(2)]
                         }
                       }
                       return null;
                     });
+                    lensPrices[selectedFrame?.lensTypeName].rows.map((row) => {
+                      if (row?.id === Number(selectedFrame?.eyeglassesSphereOs).toFixed(2)) {
+                        if (row[Number(selectedFrame?.eyeglassesCylinderOs).toFixed(2)]) {
+                          osPrice = +row[Number(selectedFrame?.eyeglassesCylinderOs).toFixed(2)]
+                        }
+                      }
+                      return null;
+                    });
+                    if (odPrice || osPrice) {
+                      const greaterPrice = odPrice > osPrice ? odPrice : osPrice
+                      handleAddFrameToOrder(greaterPrice)
+                    } else {
+                      setOpenOutOfRangeAlert(true)
+                      toast.error('Selected Lens Rate is not available...', toastAttributes);
+                      return null;
+                    }
+
                   } else handleAddFrameToOrder()
                 }}
                 aria-label="add">
@@ -1077,8 +1092,8 @@ const EyeglassessOrder = (props) => {
                       <StyledTableCell>Model</StyledTableCell>
                       <StyledTableCell>Frame Color</StyledTableCell>
                       <StyledTableCell>Lens Type</StyledTableCell>
-                      {/* <StyledTableCell>Lens Detail</StyledTableCell> */}
                       <StyledTableCell>Lens Color</StyledTableCell>
+                      <StyledTableCell>Price</StyledTableCell>
                       <StyledTableCell></StyledTableCell>
                     </TableRow>
                   </TableHead>
@@ -1102,14 +1117,18 @@ const EyeglassessOrder = (props) => {
                         </StyledTableCell>
                         <StyledTableCell>
                           {row?.lensType === 'distance' &&
-                            'Distance'}
-                          {row?.lensType === 'read' && 'Reading'}
-                          {row?.lensType === 'fTop' && 'Flat Top'}
+                            'Distance '}
+                          {row?.lensType === 'read' && 'Reading '}
+                          {row?.lensType === 'fTop' && 'Flat Top '}
                           {row?.lensType === 'progressive' &&
-                            'Progressive'}
+                            'Progressive '}
+                          {row?.lensTypeName}
                         </StyledTableCell>
                         <StyledTableCell>
                           {row?.lensColour}
+                        </StyledTableCell>
+                        <StyledTableCell>
+                          {((+row?.frameRate || 0) + (+row?.lensRate || 0)).toLocaleString()}
                         </StyledTableCell>
                         <StyledTableCell>
                           <IconButton

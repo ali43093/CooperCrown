@@ -155,7 +155,7 @@ function LensPrice(props) {
               </TableRow>
             </TableHead>
             <TableBody>
-              {filteredLensTypes.map((hit, index) => (
+              {filteredLensTypes.sort().map((hit, index) => (
                 <StyledTableRow
                   key={index}
                   hover
